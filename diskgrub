@@ -1,0 +1,10 @@
+default 0
+timeout 10
+
+title Awesom-O (from disk)
+root (hd0,0)
+kernel /boot/linux-2.6.37.1 root=/dev/sda1 init=/bin/start video=vesa:ywrap,mtrr:3 vga=0x314 rw quiet
+
+title Awesom-O (from disk with serial output)
+root (hd0,0)
+kernel /boot/linux-2.6.37.1 root=/dev/sda1 init=/bin/start video=vesa:ywrap,mtrr:3 vga=0x314 console=ttyS0,115200n8 console=tty0 rw

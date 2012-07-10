@@ -1,0 +1,32 @@
+#!/bin/busybox ash
+
+# Mount /proc and /sys
+/bin/busybox mount -t proc proc /proc
+/bin/busybox mount -t sysfs sysfs /sys
+
+# Mount a tmpfs on /tmp. This filesystem lives in system memory.
+/bin/busybox mount -t tmpfs tmp /tmp
+
+# /bin/links contains symbolic links with the names of commands, all
+# linked to /bin/busybox. This makes running commands from the shell a bit
+# nicer.
+export PATH=/bin:/bin/links
+
+# Launch the udhcpc daemon, which configures interfaces via DHCP
+/bin/busybox udhcpc &
+
+# Raise the loopback interface. The ethernet interface is raised in
+# /etc/dhcpevent, called by udhcpc.
+/bin/busybox ip link set dev lo up
+
+# Resources needed by the Devices SDK
+export OPERA_DIR=/opera_dir
+export OPERA_HOME=/opera_home
+export OPERA_FONTS=/fonts
+
+# Launch the Awesom-O interface
+/bin/opera -u file:///resources/start-page.html
+
+# Launch an interactive shell after /bin/opera exits. (Handy during
+# development.)
+exec /bin/busybox ash
