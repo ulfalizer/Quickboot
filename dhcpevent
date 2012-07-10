@@ -6,14 +6,14 @@ case $1 in
     # Raise interface
     /bin/busybox ip link set dev $interface up
 
-	# Deconfigure interface
-	/bin/busybox ip addr flush dev $interface
+    # Deconfigure interface
+    /bin/busybox ip addr flush dev $interface
     ;;
   bound|renew )
     # Configure interface
     /bin/busybox ifconfig $interface $ip netmask $subnet
 
-	# Add default routes
+    # Add default routes
     if [ -n "$router" ]; then
         /bin/busybox ip route del default
         /bin/busybox ip route add default via $router
