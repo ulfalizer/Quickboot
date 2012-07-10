@@ -20,4 +20,4 @@ start.c      : Tiny init process.
 
 usbboot.c    : Run from an initramfs to boot from a USB device.
 
-usbgrub      : Grub Legacy configuration for booting from an USB device.
+usbgrub      : Grub Legacy configuration for booting from a USB device.
