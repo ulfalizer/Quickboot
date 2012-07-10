@@ -1,0 +1,34 @@
+#!/bin/busybox ash
+dnsfile=/etc/resolv.conf
+
+case $1 in 
+  deconfig )
+    # Raise interface
+    /bin/busybox ip link set dev $interface up
+
+	# Deconfigure interface
+	/bin/busybox ip addr flush dev $interface
+    ;;
+  bound|renew )
+    # Configure interface
+    /bin/busybox ifconfig $interface $ip netmask $subnet
+
+	# Add default routes
+    if [ -n "$router" ]; then
+        /bin/busybox ip route del default
+        /bin/busybox ip route add default via $router
+    fi
+
+    # Clear the list of DNS servers
+    > $dnsfile
+
+    # Add domain
+    [ -n "$domain" ] && echo "search $domain" > $dnsfile
+
+    # Register DNS servers
+    for server in $dns; do
+        echo nameserver $server >> $dnsfile
+        echo Added DNS server $server
+    done
+    ;;
+esac
